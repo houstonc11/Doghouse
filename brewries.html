@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Styles for comments section -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/jquery-comments.css"> -->
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Data -->
+    <!-- <script type="text/javascript" src="doghouse/javascript/comments-data.js"></script> -->
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Amatica SC' rel='stylesheet'>
+    <!-- Libraries -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.textcomplete/1.8.0/jquery.textcomplete.js"></script>
+    <!-- <script type="text/javascript" src="doghouse/javascript/jquery-comments.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+    <script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img class="navbar-brand" href="#" alt="Brand" src="images/doghouse-logo.png" id="logo">
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="burgers.html">BURGERS</a>
+                        </li>
+                        <li>
+                            <a href="pizza.html">PIZZA</a>
+                        </li>
+                        <li>
+                            <a href="breweries.html">BREWERIES</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Restaurant Name -->
+    <div class="row" id="placesDiv">
+        <h2 id="burgerTitle"></h2>
+        <!-- Restaurant name will go here -->
+    </div>
+    <!-- Map -->
+    <div class="row">
+        <div class="col-md-8">
+            <div id="map"></div>
+            <div id="vote-section">
+                <!-- Restaurant Name -->
+                <div id="restaurantName"></div>
+                <!-- Restaurant Address -->
+                <div id="location"></div>
+                <!-- Voting Buttons -->
+                <div id="votingButtons"></div>
+                <div id="facebook">
+                    <div class="fb-comments" data-href="https://houstonc11.github.io/doghouse/" data-width="600px" data-numposts="5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="rankings" id="rankings">
+                <h3 style="text-align:center;">THE RANKINGS</h3>
+                <hr style="border-color:#c22033;">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="comments-container"></div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="text-muted text-center">&copy; 2017 The Doghouse DFW</p>
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js "></script>
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js "><\/script>')
+    </script>
+    <!-- Custom scripts for this template -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOa9CGHeiU2rtN2zI759DmUhBLExpv63k&libraries=places&callback=initMap" async defer></script>
+    <script>
+    // for hoisting 
+    var initMap;
+    // config information to connect to firebase.
+    var config = {
+        apiKey: "AIzaSyBHlcBB2l86r8hsdxuzp-OJtbg1bVDOh0k",
+        authDomain: "doghouse-brewries.firebaseapp.com",
+        databaseURL: "https://doghouse-brewries.firebaseio.com",
+        projectId: "doghouse-brewries",
+        storageBucket: "",
+        messagingSenderId: "547650291692"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    // This example requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+    var map;
+    var infowindow;
+    var markers = [];
+    // we assign an anonymous function to initMap, a global variable or a visible variable in the outer scope.
+    // Some function called "initmap" needs to be accessible in the global scope so that google maps can call
+    // that function.
+    initMap = function() {
+        var dallas = {
+            lat: 32.7767,
+            lng: -96.7970
+        };
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: dallas,
+            zoom: 10
+        });
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        var request = {
+            location: dallas,
+            radius: 10000,
+            query: "dallas brewery"
+        };
+        service.textSearch(request, callback);
+    }
+    var places;
+    function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            places = results;
+            console.log(places)
+            saveToFirebase();
+        }
+    }
+    function saveToFirebase() {
+        for (var i = 0; i < places.length; i++) {
+            database.ref(places[i].place_id).update({
+                id: places[i].id,
+                place_id: places[i].place_id,
+                name: places[i].name,
+                formatted_address: places[i].formatted_address,
+                geometry: {
+                    location: {
+                        lat: places[i].geometry.location.lat(),
+                        lng: places[i].geometry.location.lng()
+                    }
+                }
+                // ,
+            });
+        }
+        displayOneLocation();
+    }
+    function displayOneLocation() {
+        var placeCount = places.length - 1;
+        var randomNumber = Math.floor((Math.random() * placeCount) + 1);
+        var crummyButtonDiv = $("<div>");
+        var yummyButtonDiv = $('<div>');
+        var skipButtonDiv = $('<div>');
+        var allButtonDiv = $("<div>");
+        $("#burgerTitle").text(places[randomNumber].name);
+        var addressSpan = $('<div>');
+        addressSpan.text(places[randomNumber].formatted_address);
+        console.log(places[randomNumber]);
+        var voteButtonCrummy = $("<button>");
+        voteButtonCrummy.text("CRUMMY :(");
+        voteButtonCrummy.attr("data-value", places[randomNumber].place_id);
+        voteButtonCrummy.attr("class", "down-vote");
+        crummyButtonDiv.append(voteButtonCrummy);
+        var voteButtonSkip = $("<button>");
+        voteButtonSkip.text("I HAVEN'T BEEN HERE");
+        voteButtonSkip.attr("data-value", places[randomNumber].place_id);
+        voteButtonSkip.attr("class", "skip-vote");
+        skipButtonDiv.append(voteButtonSkip);
+        var voteButtonYummy = $("<button>");
+        voteButtonYummy.text('YUMMY :)');
+        voteButtonYummy.attr('data-value', places[randomNumber].place_id);
+        voteButtonYummy.attr('class', 'up-vote');
+        yummyButtonDiv.append(voteButtonYummy);
+        allButtonDiv.append(voteButtonCrummy);
+        allButtonDiv.append(voteButtonSkip);
+        allButtonDiv.append(voteButtonYummy);
+        setMapOnAll(null);
+        createMarker(places[randomNumber]);
+        $("#restaurantName").text(places[randomNumber].name);
+        $('#location').html(addressSpan);
+        $('#votingButtons').html(allButtonDiv);
+        sortVotes();
+    }
+    $(document).on("click", ".up-vote", function() {
+        var place_id = $(this).attr('data-value');
+        firebase.database().ref(place_id).once('value').then(function(snapshot) {
+            var location = snapshot.val();
+            if (location.vote == undefined)
+                location.vote = 1
+            else
+                location.vote = location.vote + 1;
+            database.ref(place_id).update(location);
+            displayOneLocation();
+            $("#rankings").html('')
+            listItemDiv.empty();
+        });
+    });
+    $(document).on("click", ".down-vote", function() {
+        var place_id = $(this).attr('data-value');
+        firebase.database().ref(place_id).once('value').then(function(snapshot) {
+            var location = snapshot.val();
+            if (location.vote == undefined)
+                location.vote = 1
+            else
+                location.vote = location.vote - 1;
+            database.ref(place_id).update(location);
+            displayOneLocation();
+            $("#rankings").html('')
+            listItemDiv.empty();
+        });
+    });
+    $(document).on("click", ".skip-vote", function() {
+        displayOneLocation();
+        $("#rankings").html('')
+        listItemDiv.empty();
+    });
+    function sortVotes() {
+        var placesArray = [];
+        firebase.database().ref().orderByChild("vote").once("value", function(snapshot) {
+            //console.log(“snap: “, snapshot.val());
+            snapshot.forEach(function(childSnapshot) {
+                if (childSnapshot.val().vote != undefined) {
+                    var obj = {
+                        "name": childSnapshot.val().name,
+                        "votes": childSnapshot.val().vote
+                    };
+                    placesArray.push(obj);
+                }
+            });
+            placesArray.sort(sort_by("votes", false, parseInt));
+            console.log(placesArray)
+            for (var i = 0; i < 10; i++) {
+                listItemDiv = $("<div>");
+                listItemDiv.attr("class", "listItem");
+                listItemDiv.append(i + 1);
+                listItemDiv.append(".");
+                listItemDiv.append(" ");
+                listItemDiv.append(placesArray[i].name);
+                listItemDiv.append(":");
+                listItemDiv.append(" ");
+                votesDisplaySpan = $("<span class='voteNumber'>");
+                votesDisplaySpan.append(placesArray[i].votes + "<hr>")
+                listItemDiv.append(votesDisplaySpan);
+                $("#rankings").append(listItemDiv);
+                console.log(placesArray[i]);
+                $("#rankings").append(listItemDiv)
+                console.log(placesArray[i])
+            };
+        });
+    }
+    var sort_by = function(field, reverse, primer) {
+        var key = function(x) {
+            return primer ? primer(x[field]) : x[field]
+        };
+        return function(a, b) {
+            var A = key(a),
+                B = key(b);
+            return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse];
+        }
+    }
+    function createMarker(place) {
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: "images/dogIcon.png",
+            place: {
+                placeId: place.place_id,
+                location: place.geometry.location
+            }
+            // position: place.geometry.location
+        });
+        markers.push(marker);
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+        });
+    }
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+    
+    </script>
+</body>
+</html>
