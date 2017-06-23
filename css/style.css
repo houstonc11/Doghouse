@@ -101,7 +101,7 @@ hr {
 }
 /* Biz Info */
 #vote-section {
-    background-color: #fdfdfd;
+    background-color: #f9f9f9;
     padding: 20px;
     margin-top: -6px;
 }
@@ -115,7 +115,7 @@ hr {
     padding-left: 40px;
 }
 #votingButtons {
-    background-color: #fdfdfd;
+    background-color: #f9f9f9;
     padding-top: 20px;
 }
 .down-vote {
@@ -150,11 +150,11 @@ hr {
 }
 /* Rankings */
 .rankings {
-    background-color: #f9f9f9;
+    background-color: #fdfdfd;
     padding: 25px 40px 40px 25px;
 }
 .col-md-4 {
-    background-color: #f9f9f9;
+    background-color: #fdfdfd;
 }
 .voteNumber {
     font-family: 'Amatica SC';
@@ -170,4 +170,7 @@ hr {
 }
 .text-muted {
     margin: 0px;
+}
+#facebook {
+    margin: 0 40px 0 40px;
 }
