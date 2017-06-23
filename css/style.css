@@ -1,0 +1,173 @@
+/* Global */
+* {
+    border-radius: 0 !important;
+}
+html body {
+    background-color: #fdfdfd;
+}
+body {
+    font-size: 18px;
+    font-weight: lighter;
+    color: #2f2f2f;
+}
+h1 {
+    font-family: 'Amatica SC';
+    font-size: 36px;
+    color: #2f2f2f;
+}
+h2 {
+    font-family: 'Amatica SC';
+    color: #fdfdfd;
+    font-weight: lighter;
+    font-size: 36px;
+}
+h3 {
+    font-family: 'Amatica SC';
+    color: #2f2f2f;
+    font-size: 36px;
+}
+hr {
+    border-color: #d9d9d9;
+}
+.lead {
+    color: rgba(0, 0, 0, 0.54);
+}
+.col-md-8 {
+    padding: 0;
+}
+/* Home */
+#home-logo {
+    margin-top: 100px;
+}
+#home-buttons {
+    margin-top: 50px;
+}
+.btn-default {
+    width: 150px;
+    border: none;
+    margin: 0 8px 0 8px;
+    background-color: #2f2f2f;
+    font-family: 'Amatica SC';
+    font-size: 36px;
+    color: #fdfdfd;
+    display: inline-block;
+}
+/* Navbar */
+.navbar-inverse {
+    background-color: #fdfdfd;
+    border-color: #fdfdfd;
+}
+.navbar-inverse .navbar-brand {
+    color: #2f2f2f;
+}
+.navbar-inverse .navbar-brand:focus,
+.navbar-inverse .navbar-brand:hover {
+    color: #2f2f2f;
+}
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #c22033;
+}
+.navbar-inverse .navbar-toggle .icon-bar {
+    background-color: #c22033;
+}
+.navbar-brand {
+    font-weight: lighter;
+    font-size: 18px;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: #2f2f2f;
+}
+.navbar-nav {
+    padding-top: 30px;
+}
+/* Logo */
+#logo {
+    height: 88px;
+    padding-top: 20px;
+}
+/* Name */
+#placesDiv {
+    background-color: #2f2f2f;
+    padding-left: 60px;
+    padding-bottom: 10px;
+    margin-top: 80px;
+}
+/* Map */
+#map {
+    width: 100%;
+    height: 350px;
+    background-color: grey;
+}
+/* Biz Info */
+#vote-section {
+    background-color: #fdfdfd;
+    padding: 20px;
+    margin-top: -6px;
+}
+#restaurantName {
+    font-size: 36px;
+    font-weight: bold;
+    padding-left: 40px;
+}
+#location {
+    font-size: 30px;
+    padding-left: 40px;
+}
+#votingButtons {
+    background-color: #fdfdfd;
+    padding-top: 20px;
+}
+.down-vote {
+    width: 150px;
+    padding: 10px;
+    font-family: 'Amatica SC';
+    font-size: 36px;
+    color: #fdfdfd;
+    background-color: #2f2f2f;
+    border: none;
+    margin: 0 0 40px 40px;
+}
+.skip-vote {
+    width: 300px;
+    padding: 10px;
+    font-family: 'Amatica SC';
+    font-size: 36px;
+    color: #fdfdfd;
+    background-color: #2f2f2f;
+    border: none;
+    margin: 0 0 40px 40px;
+}
+.up-vote {
+    width: 150px;
+    padding: 10px;
+    font-family: 'Amatica SC';
+    font-size: 36px;
+    color: #fdfdfd;
+    background-color: #2f2f2f;
+    border: none;
+    margin: 0 0 40px 40px;
+}
+/* Rankings */
+.rankings {
+    background-color: #f9f9f9;
+    padding: 25px 40px 40px 25px;
+}
+.col-md-4 {
+    background-color: #f9f9f9;
+}
+.voteNumber {
+    font-family: 'Amatica SC';
+    font-weight: bold;
+    color: #c22033;
+    font-size: 24px;
+}
+/* Footer */
+.footer {
+    background-color: #2f2f2f;
+    color: #fdfdfd;
+    padding: 15px 0 15px 0;
+}
+.text-muted {
+    margin: 0px;
+}
