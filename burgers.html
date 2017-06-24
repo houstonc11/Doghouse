@@ -92,6 +92,7 @@
             <div class="rankings" id="rankings">
                 <h3 style="text-align:center;">THE RANKINGS</h3>
                 <hr style="border-color:#c22033;">
+                <div id="listOrder"></div>
             </div>
         </div>
     </div>
@@ -224,7 +225,7 @@
                 location.vote = location.vote + 1;
             database.ref(place_id).update(location);
             displayOneLocation();
-            $("#rankings").html('')
+            $("#listOrder").html('')
             listItemDiv.empty();
         });
     });
@@ -233,18 +234,18 @@
         firebase.database().ref(place_id).once('value').then(function(snapshot) {
             var location = snapshot.val();
             if (location.vote == undefined)
-                location.vote = 1
+                location.vote = -1
             else
                 location.vote = location.vote - 1;
             database.ref(place_id).update(location);
             displayOneLocation();
-            $("#rankings").html('')
+            $("#listOrder").html('')
             listItemDiv.empty();
         });
     });
     $(document).on("click", ".skip-vote", function() {
         displayOneLocation();
-        $("#rankings").html('')
+        $("#listOrder").html('')
         listItemDiv.empty();
     });
 
@@ -275,9 +276,9 @@
                 votesDisplaySpan = $("<span class='voteNumber'>");
                 votesDisplaySpan.append(placesArray[i].votes + "<hr>")
                 listItemDiv.append(votesDisplaySpan);
-                $("#rankings").append(listItemDiv);
+                $("#listOrder").append(listItemDiv);
                 console.log(placesArray[i]);
-                $("#rankings").append(listItemDiv)
+                $("#listOrder").append(listItemDiv)
                 console.log(placesArray[i])
             };
         });

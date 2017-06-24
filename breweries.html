@@ -90,12 +90,8 @@
             <div class="rankings" id="rankings">
                 <h3 style="text-align:center;">THE RANKINGS</h3>
                 <hr style="border-color:#c22033;">
+                <div id="listOrder"></div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div id="comments-container"></div>
         </div>
     </div>
     <!-- Footer -->
@@ -105,7 +101,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js "></script>
     <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
     window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js "><\/script>')
     </script>
@@ -224,7 +220,7 @@
                 location.vote = location.vote + 1;
             database.ref(place_id).update(location);
             displayOneLocation();
-            $("#rankings").html('')
+            $("#listOrder").html('')
             listItemDiv.empty();
         });
     });
@@ -233,20 +229,21 @@
         firebase.database().ref(place_id).once('value').then(function(snapshot) {
             var location = snapshot.val();
             if (location.vote == undefined)
-                location.vote = 1
+                location.vote = -1
             else
                 location.vote = location.vote - 1;
             database.ref(place_id).update(location);
             displayOneLocation();
-            $("#rankings").html('')
+            $("#listOrder").html('')
             listItemDiv.empty();
         });
     });
     $(document).on("click", ".skip-vote", function() {
         displayOneLocation();
-        $("#rankings").html('')
+        $("#listOrder").html('')
         listItemDiv.empty();
     });
+
     function sortVotes() {
         var placesArray = [];
         firebase.database().ref().orderByChild("vote").once("value", function(snapshot) {
@@ -274,9 +271,9 @@
                 votesDisplaySpan = $("<span class='voteNumber'>");
                 votesDisplaySpan.append(placesArray[i].votes + "<hr>")
                 listItemDiv.append(votesDisplaySpan);
-                $("#rankings").append(listItemDiv);
+                $("#listOrder").append(listItemDiv);
                 console.log(placesArray[i]);
-                $("#rankings").append(listItemDiv)
+                $("#listOrder").append(listItemDiv)
                 console.log(placesArray[i])
             };
         });
@@ -291,6 +288,7 @@
             return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse];
         }
     }
+
     function createMarker(place) {
         var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
@@ -308,12 +306,13 @@
             infowindow.open(map, this);
         });
     }
+
     function setMapOnAll(map) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
         }
     }
-    
     </script>
 </body>
+
 </html>
