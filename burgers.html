@@ -244,9 +244,18 @@
         });
     });
     $(document).on("click", ".skip-vote", function() {
-        displayOneLocation();
-        $("#listOrder").html('')
-        listItemDiv.empty();
+        var place_id = $(this).attr('data-value');
+        firebase.database().ref(place_id).once('value').then(function(snapshot) {
+            var location = snapshot.val();
+            if (location.vote == undefined)
+                location.vote = 0
+            else
+                location.vote = location.vote + 0;
+            database.ref(place_id).update(location);
+            displayOneLocation();
+            $("#listOrder").html('')
+            listItemDiv.empty();
+        });
     });
 
     function sortVotes() {

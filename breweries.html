@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Project</title>
@@ -23,8 +24,9 @@
     <!-- <script type="text/javascript" src="doghouse/javascript/jquery-comments.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 </head>
+
 <body>
-<div id="fb-root"></div>
+    <div id="fb-root"></div>
     <script>
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -149,6 +151,7 @@
         service.textSearch(request, callback);
     }
     var places;
+
     function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             places = results;
@@ -156,6 +159,7 @@
             saveToFirebase();
         }
     }
+
     function saveToFirebase() {
         for (var i = 0; i < places.length; i++) {
             database.ref(places[i].place_id).update({
@@ -174,6 +178,7 @@
         }
         displayOneLocation();
     }
+
     function displayOneLocation() {
         var placeCount = places.length - 1;
         var randomNumber = Math.floor((Math.random() * placeCount) + 1);
@@ -239,9 +244,18 @@
         });
     });
     $(document).on("click", ".skip-vote", function() {
-        displayOneLocation();
-        $("#listOrder").html('')
-        listItemDiv.empty();
+        var place_id = $(this).attr('data-value');
+        firebase.database().ref(place_id).once('value').then(function(snapshot) {
+            var location = snapshot.val();
+            if (location.vote == undefined)
+                location.vote = 0
+            else
+                location.vote = location.vote + 0;
+            database.ref(place_id).update(location);
+            displayOneLocation();
+            $("#listOrder").html('')
+            listItemDiv.empty();
+        });
     });
 
     function sortVotes() {
